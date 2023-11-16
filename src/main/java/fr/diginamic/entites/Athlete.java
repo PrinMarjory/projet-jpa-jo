@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Représente un athlète participant aux JO avec son identifiant, son nom, son sexe et la liste de ses participations aux JO
+ * Représente un athlète participant aux JO avec son identifiant en base de donnée, son identifiant JO, son nom, son sexe et la liste de ses participations aux JO
  * 
  * @author Marjory PRIN
  */
@@ -20,16 +20,20 @@ import javax.persistence.Table;
 @Table(name = "ATHLETE")
 public class Athlete {
 
-	/** l'identifiant de l'athlète */
+	/** l'identifiant de l'athlète pour la base de donnée */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	/** l'identifiant de l'athlète dans le fichier CSV des JO */
+	@Column(name ="ID_JO", length = 10, nullable = false, unique = true)
+	private int idJO;
 	
 	/** le nom complet de l'athlète */
 	@Column(name = "NOM", length = 150, nullable = false)
 	private String nom;
 	
-	/** le sexe de l'athlète (M ou F) */
+	/** le sexe de l'athlète (H ou F) */
 	@Column(name = "SEXE", length = 1, nullable = false)
 	private String sexe;
 	
@@ -60,6 +64,20 @@ public class Athlete {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	/** Getter
+	 * @return the idJO
+	 */
+	public int getIdJO() {
+		return idJO;
+	}
+
+	/** Setter
+	 * @param idJO the idJO to set
+	 */
+	public void setIdJO(int idJO) {
+		this.idJO = idJO;
 	}
 
 	/** Getter

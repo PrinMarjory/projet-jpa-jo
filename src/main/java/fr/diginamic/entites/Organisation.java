@@ -31,7 +31,7 @@ public class Organisation {
 	private String codeCIO;
 	
 	/** le code ISO */
-	@Column(name = "CODE_ISO", length = 3, nullable = true, unique = true)
+	@Column(name = "CODE_ISO", length = 3, nullable = true)
 	private String codeISO;
 	
 	/** le nom anglais de l'organisation */
@@ -42,9 +42,9 @@ public class Organisation {
 	@Column(name = "NOM_FR", length = 100, nullable = true)
 	private String nomFR;
 	
-	/** le statut obsolète ou non de l'organisation */
+	/** le statut obsolète ou non de l'organisation (O : obsolète, N : non obsolète) */
 	@Column(name = "OBSOLETE", nullable = false)
-	private boolean obsolete;
+	private String obsolete;
 	
 	/** la liste des équipes de l'organisation */
 	@OneToMany(mappedBy = "organisation")
@@ -134,14 +134,14 @@ public class Organisation {
 	/** Getter
 	 * @return the obsolete
 	 */
-	public boolean isObsolete() {
+	public String isObsolete() {
 		return obsolete;
 	}
 
 	/** Setter
 	 * @param obsolete the obsolete to set
 	 */
-	public void setObsolete(boolean obsolete) {
+	public void setObsolete(String obsolete) {
 		this.obsolete = obsolete;
 	}
 

@@ -32,7 +32,7 @@ public class Epreuve {
 	private String nomEN;
 	
 	/** le nom de l'épreuve en français */
-	@Column(name = "NOM_FR", length = 100, nullable = true, unique = true)
+	@Column(name = "NOM_FR", length = 100, nullable = true)
 	private String nomFR;
 	
 	/** le sport correspondant à l'épreuve */

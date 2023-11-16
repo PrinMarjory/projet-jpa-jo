@@ -30,7 +30,7 @@ public class Sport {
 	private String nomEN;
 	
 	/** le nom en français du sport*/
-	@Column(name = "NOM_FR", length = 50, nullable = true, unique = true)
+	@Column(name = "NOM_FR", length = 50, nullable = true)
 	private String nomFR;
 	
 	/** la liste des épreuves de ce sport */
