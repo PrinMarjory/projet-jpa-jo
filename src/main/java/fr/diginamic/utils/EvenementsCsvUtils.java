@@ -12,20 +12,8 @@ import javax.persistence.Persistence;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
-import fr.diginamic.dao.AthleteDAO;
-import fr.diginamic.dao.EditionDAO;
-import fr.diginamic.dao.EpreuveDAO;
-import fr.diginamic.dao.EquipeDAO;
-import fr.diginamic.dao.OrganisationDAO;
-import fr.diginamic.dao.ParticipationDAO;
-import fr.diginamic.dao.SportDAO;
-import fr.diginamic.entites.Athlete;
-import fr.diginamic.entites.Edition;
-import fr.diginamic.entites.Equipe;
-import fr.diginamic.entites.Epreuve;
-import fr.diginamic.entites.Sport;
-import fr.diginamic.entites.Organisation;
-import fr.diginamic.entites.Participation;
+import fr.diginamic.dao.*;
+import fr.diginamic.entites.*;
 
 /** 
  * Permet de lire le fichier evenements.csv et de remplir la base de donnée JO associée
@@ -54,7 +42,7 @@ public class EvenementsCsvUtils {
 			EntityTransaction transaction = em.getTransaction();
 			
 			// Traitement des lignes du fichier csv pour ajout dans la base
-			for (int i = ligneDebut; i<lignes.size(); i++) {
+			for (int i = ligneDebut; i<100; i++) {
 					
 				// Récupération des valeurs de chaque colonne de la ligne dans un tableau
 				String[] morceaux = lignes.get(i).split(";");
@@ -136,21 +124,21 @@ public class EvenementsCsvUtils {
 				edition = EditionDAO.getByAnneeEtSaison(em, annee, saison);
 				if (edition == null) {
 					edition = EditionDAO.insert(em, annee, saison, ville);
-				}				
+				}	
 				
 				// Insertion en base de l'épreuve si elle n'existe pas encore
-				Epreuve epreuve = new Epreuve();
+				TraductionEpreuve traduction = new TraductionEpreuve();
 				if (nomEpreuve.startsWith(nomSport)) {
 					nomEpreuve = nomEpreuve.replace(nomSport + " ", "");
-				}
-				epreuve = EpreuveDAO.getByNomEN(em, nomEpreuve);
+				} 
+				traduction = TraductionEpreuveDAO.getByNomEN(em, nomEpreuve);
 				Sport sport = new Sport();
 				sport = SportDAO.getByNomEN(em, nomSport);
+				Epreuve epreuve = new Epreuve();
+				epreuve = EpreuveDAO.getByTraductionEtSport(em, traduction, sport);
 				if (epreuve == null) {
-					epreuve = EpreuveDAO.insert(em, nomEpreuve, null);
-				} else if (epreuve.getSport() == null) {
-					EpreuveDAO.setSport(em, nomEpreuve, sport);
-				}
+					epreuve = EpreuveDAO.insert(em, traduction, sport);
+				} 
 				
 				// Insertion en base de la participation
 				Participation participation = new Participation();

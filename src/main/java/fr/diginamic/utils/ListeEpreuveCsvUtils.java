@@ -10,8 +10,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import fr.diginamic.dao.EpreuveDAO;
-import fr.diginamic.entites.Epreuve;
+import fr.diginamic.dao.TraductionEpreuveDAO;
+import fr.diginamic.entites.TraductionEpreuve;
 
 /** 
  * Permet de lire le fichier liste_des_epreuves.csv et de remplir la base de donnée JO associée
@@ -21,7 +21,7 @@ import fr.diginamic.entites.Epreuve;
 public class ListeEpreuveCsvUtils {
 	
 	/**
-	 * Lit le contenu du fichier en paramètre contenant les données des épreuves des JO, transforme ces données au format attendu
+	 * Lit le contenu du fichier en paramètre contenant les données de traduction des épreuves des JO, transforme ces données au format attendu
 	 * et remplie la base de donnée JO en accordance
 	 * @param cheminFichier : le chemin d'accès du fichier sur le disque dur
 	 * @param ligneDebut : le numéro de ligne ou commencer à charger le fichier csv
@@ -51,12 +51,12 @@ public class ListeEpreuveCsvUtils {
 					nomFR = morceaux[1];
 				}
 				
-				// Insertion en base si le sport n'existe pas encore
+				// Insertion en base si l'épreuve n'existe pas encore
 				transaction.begin();
-				Epreuve epreuve = new Epreuve();
-				epreuve = EpreuveDAO.getByNomEN(em, morceaux[0]);
+				TraductionEpreuve epreuve = new TraductionEpreuve();
+				epreuve = TraductionEpreuveDAO.getByNomEN(em, morceaux[0]);
 				if (epreuve == null) {
-					EpreuveDAO.insert(em, nomEN, nomFR);
+					TraductionEpreuveDAO.insert(em, nomEN, nomFR);
 				}
 				transaction.commit();
 			}

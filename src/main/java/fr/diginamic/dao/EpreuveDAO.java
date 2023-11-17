@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import fr.diginamic.entites.TraductionEpreuve;
 import fr.diginamic.entites.Epreuve;
 import fr.diginamic.entites.Sport;
 
@@ -16,50 +17,37 @@ import fr.diginamic.entites.Sport;
 public class EpreuveDAO {
 
 	/**
-	 * Permet d'ajouter une épreuve dans la base à partir de son nom anglais et de son nom français
+	 * Permet d'ajouter une  épreuve dans la base à partir de sa traduction et de son sport
 	 * @param em : l'entityManager
-	 * @param nomEN : nom en anglais de l'épreuve
-	 * @param nomFR : nom en français de l'épreuve
+	 * @param traduction : la traduction du nom de l'épreuve
+	 * @param sport : le sport de l'épreuve
 	 * @return l'épreuve qui vient d'être créée
 	 */
-	public static Epreuve insert(EntityManager em, String nomEN, String nomFR) {
+	public static Epreuve insert(EntityManager em, TraductionEpreuve traduction, Sport sport) {
 		Epreuve e = new Epreuve();
-		e.setNomEN(nomEN);
-		if (nomFR != null) {
-			e.setNomFR(nomFR);
-		}
+		e.setTraduction(traduction);
+		e.setSport(sport);
 		em.persist(e);
-		e = getByNomEN(em, nomEN);
+		e = getByTraductionEtSport(em, traduction, sport);
 		return e;
 	}
 	
 	/** 
-	 * Permet de récupérer une épreuve dans la base à partir de son nom anglais
+	 * Permet de récupérer une épreuve dans la base à partir de sa traduction et de son sport
 	 * @param em : l'entityManager
-	 * @param nomEN : le nom de l'épreuve en anglais
+	 * @param traduction : la traduction du nom de l'épreuve
+	 * @param sport : le sport de l'épreuve
 	 * @return l'épreuve ou null si elle n'existe pas
 	 */
-	public static Epreuve getByNomEN(EntityManager em, String nomEN) {
-		TypedQuery<Epreuve> query = em.createQuery("SELECT e FROM Epreuve e WHERE e.nomEN=:param", Epreuve.class);
-		query.setParameter("param", nomEN);
+	public static Epreuve getByTraductionEtSport(EntityManager em, TraductionEpreuve traduction, Sport sport) {
+		TypedQuery<Epreuve> query = em.createQuery("SELECT e FROM Epreuve e WHERE e.traduction=:param1 AND e.sport=:param2", Epreuve.class);
+		query.setParameter("param1", traduction);
+		query.setParameter("param2", sport);
 		List<Epreuve> epreuves = query.getResultList();
 		if (epreuves.size()>0) {
 			return epreuves.get(0);
 		}
 		return null;
-	}
-	
-	/** 
-	 * Permet de mettre à jour le sport associé à l'épreuve
-	 * @param em : l'entityManager
-	 * @param nomEpreuve : le nom de l'épreuve en anglais
-	 * @param sport : le sport à mettre à jour
-	 */
-	public static void setSport(EntityManager em, String nomEpreuve, Sport sport) {
-		Epreuve epreuve = new Epreuve();
-		epreuve = getByNomEN(em, nomEpreuve);
-		epreuve.setSport(sport);
-		em.persist(epreuve);
 	}
 	
 }

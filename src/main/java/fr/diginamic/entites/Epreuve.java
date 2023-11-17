@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Représente une épreuve des JO avec son identifiant, son nom anglais, le sport correspondant et son nom français et la liste des participations des athlètes
+ * Représente une épreuve des JO avec son identifiant, le sport correspondant, la traduction du nom de l'épreuve et la liste des participations des athlètes
  * 
  * @author Marjory PRIN
  */
@@ -27,18 +27,15 @@ public class Epreuve {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	/** le nom de l'épreuve en anglais */
-	@Column(name = "NOM_EN", length = 100, nullable = false, unique = true)
-	private String nomEN;
-	
-	/** le nom de l'épreuve en français */
-	@Column(name = "NOM_FR", length = 100, nullable = true)
-	private String nomFR;
-	
 	/** le sport correspondant à l'épreuve */
 	@ManyToOne
 	@JoinColumn(name = "SPORT_ID")
 	private Sport sport;
+	
+	/** la traduction de l'épreuve*/
+	@ManyToOne
+	@JoinColumn(name = "TRADUCTION_EPREUVE_ID")
+	private TraductionEpreuve traduction;
 	
 	/** la liste des participations des athlètes à cette épreuve des JO */
 	@OneToMany(mappedBy = "epreuve")
@@ -52,14 +49,7 @@ public class Epreuve {
 
 	@Override
 	public String toString() {
-		String nomSport = sport.getNomEN();
-		if (sport.getNomFR() != null) {
-			nomSport = sport.getNomFR();
-		}
-		if (nomFR != null) {
-			return nomSport + " " + nomFR;
-		}
-		return nomSport + " " + nomEN;
+		return sport + " " + traduction;
 	}
 
 	/** Getter
@@ -77,34 +67,6 @@ public class Epreuve {
 	}
 
 	/** Getter
-	 * @return the nomEN
-	 */
-	public String getNomEN() {
-		return nomEN;
-	}
-
-	/** Setter
-	 * @param nomEN the nomEN to set
-	 */
-	public void setNomEN(String nomEN) {
-		this.nomEN = nomEN;
-	}
-
-	/** Getter
-	 * @return the nomFR
-	 */
-	public String getNomFR() {
-		return nomFR;
-	}
-
-	/** Setter
-	 * @param nomFR the nomFR to set
-	 */
-	public void setNomFR(String nomFR) {
-		this.nomFR = nomFR;
-	}
-
-	/** Getter
 	 * @return the sport
 	 */
 	public Sport getSport() {
@@ -116,6 +78,20 @@ public class Epreuve {
 	 */
 	public void setSport(Sport sport) {
 		this.sport = sport;
+	}
+
+	/** Getter
+	 * @return the traduction
+	 */
+	public TraductionEpreuve getTraduction() {
+		return traduction;
+	}
+
+	/** Setter
+	 * @param traduction the traduction to set
+	 */
+	public void setTraduction(TraductionEpreuve traduction) {
+		this.traduction = traduction;
 	}
 
 	/** Getter
@@ -131,6 +107,5 @@ public class Epreuve {
 	public void setParticipations(Set<Participation> participations) {
 		this.participations = participations;
 	}
-	
-	
+
 }

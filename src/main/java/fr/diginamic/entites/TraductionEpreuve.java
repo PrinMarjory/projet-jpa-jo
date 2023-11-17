@@ -8,37 +8,38 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Représente un sport aux JO avec son identifiant, son nom en anglais, son nom en français et la liste des épreuves de ce sport
+ * Représente une traduction d'une épreuve des JO avec son identifiant, son nom anglais,son nom français et la liste des épreuves associées
  * 
  * @author Marjory PRIN
  */
 @Entity
-@Table(name = "SPORT")
-public class Sport {
+@Table(name = "TRADUCTION_EPREUVE")
+public class TraductionEpreuve {
 
-	/** l'identifiant de l'athlète */
+	/** l'identifiant de l'épreuve */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	/** le nom en anglais du sport*/
-	@Column(name = "NOM_EN", length = 50, nullable = false, unique = true)
+	/** le nom de l'épreuve en anglais */
+	@Column(name = "NOM_EN", length = 100, nullable = false, unique = true)
 	private String nomEN;
 	
-	/** le nom en français du sport*/
-	@Column(name = "NOM_FR", length = 50, nullable = true)
+	/** le nom de l'épreuve en français */
+	@Column(name = "NOM_FR", length = 100, nullable = true)
 	private String nomFR;
 	
-	/** la liste des épreuves de ce sport */
-	@OneToMany(mappedBy = "sport")
+	/** la liste des épreuves associées */
+	@OneToMany(mappedBy = "traduction")
 	private Set<Epreuve> epreuves;
 	
 	/** Constructeur pour JPA */
-	public Sport() {
+	public TraductionEpreuve() {
 		super();
 		epreuves = new HashSet<Epreuve>();
 	}
