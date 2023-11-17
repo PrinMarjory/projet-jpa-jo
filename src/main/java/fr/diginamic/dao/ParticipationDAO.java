@@ -31,18 +31,10 @@ public class ParticipationDAO {
 	public static Participation insert(EntityManager em, Athlete athlete, int age, double poids, int taille, String medaille, Equipe equipe, Edition edition, Epreuve epreuve) {
 		Participation p = new Participation();
 		p.setAthlete(athlete);
-		if (age != 0) {
-			p.setAge(age);
-		}
-		if (poids != 0) {
-			p.setPoids(poids);			
-		}
-		if (taille != 0) {
-			p.setTaille(taille);
-		}
-		if (medaille != null) {
-			p.setMedaille(medaille);
-		}
+		p.setAge(age);
+		p.setPoids(poids);			
+		p.setTaille(taille);
+		p.setMedaille(medaille);
 		p.setEquipe(equipe);
 		p.setEdition(edition);
 		p.setEpreuve(epreuve);

@@ -24,7 +24,7 @@ public class EquipeDAO {
 	 */
 	public static Equipe insert(EntityManager em, String nom, Organisation organisation) {
 		Equipe e = new Equipe();
-		e.setNom(null);
+		e.setNom(nom);
 		e.setOrganisation(organisation);
 		em.persist(e);
 		e = getByNom(em, nom);

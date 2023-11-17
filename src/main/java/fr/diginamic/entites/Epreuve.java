@@ -52,7 +52,14 @@ public class Epreuve {
 
 	@Override
 	public String toString() {
-		return nomFR;
+		String nomSport = sport.getNomEN();
+		if (sport.getNomFR() != null) {
+			nomSport = sport.getNomFR();
+		}
+		if (nomFR != null) {
+			return nomSport + " " + nomFR;
+		}
+		return nomSport + " " + nomEN;
 	}
 
 	/** Getter

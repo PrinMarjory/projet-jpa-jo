@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import fr.diginamic.entites.Epreuve;
+import fr.diginamic.entites.Sport;
 
 /**
  * DAO de la classe Epreuve
@@ -46,6 +47,19 @@ public class EpreuveDAO {
 			return epreuves.get(0);
 		}
 		return null;
+	}
+	
+	/** 
+	 * Permet de mettre à jour le sport associé à l'épreuve
+	 * @param em : l'entityManager
+	 * @param nomEpreuve : le nom de l'épreuve en anglais
+	 * @param sport : le sport à mettre à jour
+	 */
+	public static void setSport(EntityManager em, String nomEpreuve, Sport sport) {
+		Epreuve epreuve = new Epreuve();
+		epreuve = getByNomEN(em, nomEpreuve);
+		epreuve.setSport(sport);
+		em.persist(epreuve);
 	}
 	
 }
