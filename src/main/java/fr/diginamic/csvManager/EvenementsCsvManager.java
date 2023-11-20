@@ -1,4 +1,4 @@
-package fr.diginamic.utils;
+package fr.diginamic.csvManager;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,7 +20,7 @@ import fr.diginamic.entites.*;
  * 
  * @author Marjory PRIN
  */
-public class EvenementsCsvUtils {
+public class EvenementsCsvManager {
 
 	/**
 	 * Lit le contenu du fichier en paramètre contenant les données des évennements des JO, transforme ces données au format attendu
@@ -38,11 +38,14 @@ public class EvenementsCsvUtils {
 			// Lecture du fichier 
 			List<String> lignes = Files.readAllLines(cheminFichier);
 			
+			// Début du chrono
+			long startTime = System.currentTimeMillis();
+			
 			// Connexion à la base de donnée 
 			EntityTransaction transaction = em.getTransaction();
 			
 			// Traitement des lignes du fichier csv pour ajout dans la base
-			for (int i = ligneDebut; i<100; i++) {
+			for (int i = ligneDebut; i<lignes.size(); i++) {
 					
 				// Récupération des valeurs de chaque colonne de la ligne dans un tableau
 				String[] morceaux = lignes.get(i).split(";");
@@ -100,7 +103,7 @@ public class EvenementsCsvUtils {
 					default :
 						medaille = "";
 				}
-			
+				
 				transaction.begin();
 				
 				// Insertion en base de l'athlète si il n'existe pas encore
@@ -145,7 +148,12 @@ public class EvenementsCsvUtils {
 				participation = ParticipationDAO.insert(em, athlete, age, poids, taille, medaille, equipe, edition, epreuve);
 				
 				transaction.commit();
-			}						
+			}		
+			
+			// Fin du chrono et affichage du temps passé à traiter le fichier csv et charger la base de donnée
+			long endTime = System.currentTimeMillis();
+			System.out.println("Temps d'exécution = " + (endTime-startTime) + "ms");
+			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		} finally {

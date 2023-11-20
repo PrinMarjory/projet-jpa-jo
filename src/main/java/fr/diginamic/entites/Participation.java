@@ -68,7 +68,7 @@ public class Participation {
 	@Override
 	public String toString() {
 		String resultat = "pas de médaille";
-		if (medaille != null) {
+		if (!medaille.equals("")) {
 			resultat = medaille;
 		}
 		return edition + " " + epreuve + " " + athlete + " : " + resultat;

@@ -49,7 +49,7 @@ public class Epreuve {
 
 	@Override
 	public String toString() {
-		return sport + " " + traduction;
+		return sport + " - " + traduction;
 	}
 
 	/** Getter

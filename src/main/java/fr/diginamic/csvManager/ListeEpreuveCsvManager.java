@@ -1,4 +1,4 @@
-package fr.diginamic.utils;
+package fr.diginamic.csvManager;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,23 +10,23 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import fr.diginamic.dao.SportDAO;
-import fr.diginamic.entites.Sport;
+import fr.diginamic.dao.TraductionEpreuveDAO;
+import fr.diginamic.entites.TraductionEpreuve;
 
 /** 
- * Permet de lire le fichier liste_des_sports.csv et de remplir la base de donnée JO associée
+ * Permet de lire le fichier liste_des_epreuves.csv et de remplir la base de donnée JO associée
  * 
  * @author Marjory PRIN
  */
-public class ListeSportCsvUtils {
+public class ListeEpreuveCsvManager {
 	
 	/**
-	 * Lit le contenu du fichier en paramètre contenant les données des sports des JO, transforme ces données au format attendu
+	 * Lit le contenu du fichier en paramètre contenant les données de traduction des épreuves des JO, transforme ces données au format attendu
 	 * et remplie la base de donnée JO en accordance
 	 * @param cheminFichier : le chemin d'accès du fichier sur le disque dur
 	 * @param ligneDebut : le numéro de ligne ou commencer à charger le fichier csv
 	 */
-	public static void chargerSport(Path cheminFichier, int ligneDebut) {
+	public static void chargerEpreuve(Path cheminFichier, int ligneDebut) {
 		
 		try {
 			
@@ -51,12 +51,12 @@ public class ListeSportCsvUtils {
 					nomFR = morceaux[1];
 				}
 				
-				// Insertion en base si le sport n'existe pas encore
+				// Insertion en base si l'épreuve n'existe pas encore
 				transaction.begin();
-				Sport sport = new Sport();
-				sport = SportDAO.getByNomEN(em, nomEN);
-				if (sport == null) {
-					SportDAO.insert(em, nomEN, nomFR);
+				TraductionEpreuve epreuve = new TraductionEpreuve();
+				epreuve = TraductionEpreuveDAO.getByNomEN(em, morceaux[0]);
+				if (epreuve == null) {
+					TraductionEpreuveDAO.insert(em, nomEN, nomFR);
 				}
 				transaction.commit();
 			}

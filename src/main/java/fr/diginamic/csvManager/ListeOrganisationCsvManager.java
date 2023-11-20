@@ -1,4 +1,4 @@
-package fr.diginamic.utils;
+package fr.diginamic.csvManager;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,7 +18,7 @@ import fr.diginamic.entites.Organisation;
  * 
  * @author Marjory PRIN
  */
-public class ListeOrganisationCsvUtils {
+public class ListeOrganisationCsvManager {
 	
 	/**
 	 * Lit le contenu du fichier en paramètre contenant les données des organisation des JO, transforme ces données au format attendu
